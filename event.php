@@ -9,25 +9,7 @@ GitHub Plugin URI: https://github.com/clas-web/events-vtt
 */
 
 
-// Setup plugin in VTT.
-add_action( 'vtt-search-folders', 'uncc_variations_add_variations_folder' );
-		
-
-/**
- * Add the plugin folder the list of folders used by VTT to determine available variations.
- */
-if( !function_exists('uncc_variations_add_variations_folder') ):
-function uncc_variations_add_variations_folder()
-{
-	global $vtt_config;
-	$vtt_config->add_search_folder( __DIR__, 6);
-}
-endif;
-
-
-//================ Event Post Type files ==================================
-require_once( __DIR__ . '/functions.php' );
-
+require_once( __DIR__.'/functions.php' );
 
 //================ Event Post Type filters and actions ====================
 add_action( 'init', array('UNCC_CustomEventPostType', 'create_custom_post') );
@@ -42,8 +24,6 @@ add_filter( 'get_post_time', array('UNCC_CustomEventPostType', 'update_event_pub
 add_filter( 'manage_edit-event_columns', array( 'UNCC_CustomEventPostType', 'all_columns_key' ) );
 add_filter( 'manage_edit-event_sortable_columns', array( 'UNCC_CustomEventPostType', 'all_sortable_columns_key' ) );
 add_action( 'manage_event_posts_custom_column', array( 'UNCC_CustomEventPostType', 'all_columns_value' ), 10, 2 );
-
-add_filter( 'body_class', 'UNCC_event_body_class');
 
 
 //================== Event Post Type definition ==========================
@@ -456,8 +436,3 @@ class UNCC_CustomEventPostType{
 endif;
 
 
-if( ! function_exists('UNCC_event_body_class') ):
-function UNCC_event_body_class($classes){
-	return array_merge(array('events-section'),$classes);
-}
-endif;
