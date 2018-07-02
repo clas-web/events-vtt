@@ -1,8 +1,5 @@
 <?php
 
-require_once( __DIR__.'/widget-shortcode-control.php' );
-
-
 /**
  * The UNCC_WidgetEventsListingControl class for the Events for VTT plugin.
  * 
