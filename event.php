@@ -3,7 +3,7 @@
 Plugin Name: Events for VTT
 Plugin URI: https://github.com/clas-web/events-vtt
 Description: Adds an Events post type and listing page with calendar.  Uses VTT functions and template files.
-Version: 1.0.0
+Version: 1.1.0
 Author: Crystal Barton, Aaron Forsyth
 GitHub Plugin URI: https://github.com/clas-web/events-vtt
 */
@@ -305,12 +305,12 @@ class UNCC_CustomEventPostType{
  			$screen = get_current_screen();
  			if( $screen->base != 'edit' ) return;
 
-			$wp_query->set( 'posts_per_page', get_user_option('edit_event_per_page') );
+			//$wp_query->set( 'posts_per_page', get_user_option('edit_event_per_page') );
 
  			if( ($wp_query->get('orderby')) && ($wp_query->get('orderby') != 'datetime') ) return;
  			
- 			$wp_query->set( 'meta_key', 'datetime' );
-			$wp_query->set( 'orderby', 'meta_value' );
+ 			//$wp_query->set( 'meta_key', 'datetime' );
+			//$wp_query->set( 'orderby', 'meta_value' );
  			return;
  		}
 
@@ -434,5 +434,3 @@ class UNCC_CustomEventPostType{
 
 }	
 endif;
-
-

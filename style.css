@@ -1,0 +1,205 @@
+
+.story.events-section .description,
+.story.in-the-news-section h3 {
+	color:#666;
+}
+
+body.archive.events-section .date-controls {
+	border:solid 1px #ccb55c;
+	text-align:center;
+	margin:1em 0em;
+	border-radius:0.5em;
+}
+
+body.archive.events-section .date-controls .year {
+	background-color:#eedeb9;
+	padding:0.5em;
+	border-radius:0.5em 0.5em 0em 0em;
+}
+
+body.archive.events-section .date-controls .year > a {
+	margin:0 1em;
+	display:inline-block;
+	color:#000;
+}
+
+body.archive.events-section .date-controls .year > a:hover {
+	text-decoration:none;
+	font-weight:bold;
+}
+
+body.archive.events-section .date-controls .months {
+	background-color:#f6f6f6;
+	border-radius:0em 0em 0.5em 0.5em;
+}
+
+body.archive.events-section .date-controls .months > a,
+body.archive.events-section .date-controls .months > span {
+	margin:0.2em;
+	padding:0.2em 0.4em;
+	border:solid 1px #999;
+	border-radius:0.5em;
+	display:inline-block;
+	background-color:#eee;
+	color:#000;
+}
+
+body.archive.events-section .date-controls .months > a:hover {
+	text-decoration:none;
+	background-color:#ddd;
+}
+
+body.archive.events-section .date-controls .months > span {
+	background-color:#cbb563;
+}
+
+body.archive.events-section #content .agenda-day {
+	padding:0.5em 0em;
+	margin-bottom:2em;
+}
+
+body.archive.events-section #content .agenda-day {
+	margin:0em;
+}
+
+body.archive.events-section #content .date-label > div {
+	display:inline;
+}
+
+body.archive.events-section #content .date-label {
+	background-color:#eedeb9;
+	border:solid 1px #ccb55c;
+	border-radius:0.5em;
+	text-align:center;
+	padding:0.5em;
+	margin-bottom:1em;
+}
+
+#content .story.events-section {
+	border-bottom:solid 1px #ddd;
+	color:#666;
+	margin-bottom:1.5em;
+	padding:0em;
+}
+
+#content .story.events-section h3 {
+	display:block;
+	padding:0.5em;
+	border-bottom:solid 1px #ddd;
+	margin-bottom:0.5em;
+	background-color:#f6f6f6;
+}
+
+#content .story.events-section .contents {
+	padding-bottom:0.5em;
+}
+
+#content .story.events-section .excerpt {
+	width:65%;
+	display:inline-block;
+	vertical-align:top;
+}
+
+#content .story.events-section .event-info {
+	font-size:0.8em;
+	width:33%;
+	display:inline-block;
+	vertical-align:top;
+	margin-left:2%;
+}
+
+#content .story.events-section .event-info > div {
+	padding-bottom:0.5em;
+}
+
+#content .story.events-section .event-info > div.datetime {
+	padding-bottom:0em;
+}
+
+#content .story.events-section .event-info > div.time {
+	display:inline-block;
+	padding-right:1em;
+	text-align:right;
+}
+
+body.single.events-section #content table.event {
+	border:solid 1px #666;
+	border-collapse:collapse;
+}
+
+body.single.events-section #content table.event th,
+body.single.events-section #content table.event td {
+	border:solid 1px #666;
+	padding:0.5em 1em;
+}
+
+body.single.events-section #content table.event th {
+	color:#333;
+	font-weight:bold;
+}
+
+/****************************************************************************************
+ * Desktop PC-sized device or larger.
+ ****************************************************************************************/
+@media (min-width: 64.063em) {
+	body.archive.events-section #content .agenda-day {
+		position:relative;
+		min-height:12em;
+	}
+
+	body.archive.events-section #content .date-label {
+		background-color:#eedeb9;
+		background-position:center;
+		border:solid 1px #ccb55c;
+		border-radius:0.5em;
+		text-align:center;
+		width:15%;
+		padding:2em 1.5em;
+		left:0em;
+		top:0.5em;
+		display:inline-block;
+		vertical-align:top;
+	}
+	
+	body.archive.events-section #content .date-label > div {
+		display:block;
+	}
+
+	body.archive.events-section #content .date-label .weekday {
+		font-size:0.8rem;
+		margin-bottom:3px;
+	}
+
+	body.archive.events-section #content .date-label .month {
+		font-size:1.2rem;
+	}
+
+	body.archive.events-section #content .date-label .day {
+		font-size:3rem;
+	}
+	
+	body.archive.events-section #content .day-events {
+		display:inline-block;
+		width: 75%;
+		vertical-align:top;
+		margin-left:2%;
+	}
+}
+
+
+@media (min-width: 48em) {
+	body.single.events-section #content table.event th, 
+	body.single.events-section #content table.event td {
+		border: dotted 1px #c0c0c0;
+	}
+
+	body.single.events-section #content table.event th {
+	background-color: #F6F6F6;
+	}
+
+	#content .story.events-section .event-info {
+		width: 30%;
+		padding-left: 2%;
+		border-left: 1px solid #ccc;
+	}
+}
