@@ -156,16 +156,33 @@ class UNCC_CustomEventPostType{
 			$time = '';
 		}
 		
+                $enddatetime = get_post_meta( $post->ID, 'datetime', true );
+                if( !empty($enddatetime) )
+                {
+                        $enddatetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
+                        $enddate = $enddatetime->format('Y-m-d');
+                        $endtime = $enddatetime->format('h:i A');
+                }
+                else
+                {
+                        $enddate = '';
+                        $endtime = '';
+                }
+                
 		$location = get_post_meta( $post->ID, 'location', true );
-
+                                
 		?>
-		<label for="nh-event-date">Date</label><br/>
-		<input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($date); ?>" size="32" /><br/>
-		<label for="nh-event-time">Time</label><br/>
-		<input type="text" id="nh-event-time" name="nh-event-time" value="<?php echo esc_attr($time); ?>" size="32" /><br/>
-		<label for="nh-event-location">Location</label><br/>
-		<input type="text" id="nh-event-location" name="nh-event-location" value="<?php echo esc_attr($location); ?>" size="32" /><br/>
-		<?php
+                <label for="nh-event-date">Date</label><br/>
+                <input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($date); ?>" size="32" /><br/>
+                <label for="nh-event-time">Time</label><br/>
+                <input type="text" id="nh-event-time" name="nh-event-time" value="<?php echo esc_attr($time); ?>" size="32" /><br/>
+                <label for="nh-event-date-end">End Date</label><br/>
+                <input type="text" id="nh-event-date-end" name="nh-event-date-end" value="<?php echo esc_attr($enddate); ?>" size="32" /><br/>
+                <label for="nh-event-time-end">End Time</label><br/>
+                <input type="text" id="nh-event-time-end" name="nh-event-time-end" value="<?php echo esc_attr($endtime); ?>" size="32" /><br/>
+                <label for="nh-event-location">Location</label><br/>
+                <input type="text" id="nh-event-location" name="nh-event-location" value="<?php echo esc_attr($location); ?>" size="32" /><br/>
+                <?php
 	}
 	
 	/**
@@ -187,12 +204,28 @@ class UNCC_CustomEventPostType{
 		return;
 
 		$datetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date'].' '.$_POST['nh-event-time'] );
-		if( $datetime )
+		if( $datetime ) {
 			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
-		else
+                } else {
 			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
+                }
 
-		$location = $_POST['nh-event-location'];
+		//Adding end date function
+                $enddatetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date-end'].' '.$_POST['nh-event-time-end'] );
+                
+                //print_r ($_POST['nh-event-time-end']);                
+                //print "enddatetime: ".$enddatetime;
+                //exit;
+                if( $enddatetime ) {
+                    //print_r ($_POST['nh-event-time-end']); exit;
+                    //print_r ($enddatetime->format('Y-m-d H:i:s')); exit;
+
+              update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
+                } else {
+                        update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
+                }
+                
+                $location = $_POST['nh-event-location'];
 		update_post_meta( $post_id, 'location', $location );
 	}
 	
