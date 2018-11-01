@@ -156,18 +156,18 @@ class UNCC_CustomEventPostType{
 			$time = '';
 		}
 		
-                $enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
-                if( !empty($enddatetime) )
-                {
-                        $enddatetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
-                        $enddate = $enddatetime->format('Y-m-d');
-                        $endtime = $enddatetime->format('h:i A');
-                }
-                else
-                {
-                        $enddate = '';
-                        $endtime = '';
-                }
+		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
+		if( !empty($enddatetime) )
+		{
+				$enddatetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
+				$enddate = $enddatetime->format('Y-m-d');
+				$endtime = $enddatetime->format('h:i A');
+		}
+		else
+		{
+				$enddate = '';
+				$endtime = '';
+		}
                 
 		$location = get_post_meta( $post->ID, 'location', true );
                                 
@@ -206,26 +206,20 @@ class UNCC_CustomEventPostType{
 		$datetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date'].' '.$_POST['nh-event-time'] );
 		if( $datetime ) {
 			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
-                } else {
+        } else {
 			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
-                }
+        }
 
 		//Adding end date function
-                $enddatetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date-end'].' '.$_POST['nh-event-time-end'] );
-                
-                //print_r ($_POST['nh-event-time-end']);                
-                //print "enddatetime: ".$enddatetime;
-                //exit;
-                if( $enddatetime ) {
-                    //print_r ($_POST['nh-event-time-end']); exit;
-                    //print_r ($enddatetime->format('Y-m-d H:i:s')); exit;
-
-              update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
-                } else {
-                        update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
-                }
-                
-                $location = $_POST['nh-event-location'];
+		$enddatetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date-end'].' '.$_POST['nh-event-time-end'] );
+		
+		if( $enddatetime ) {
+			update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
+		} else {
+			update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
+		}
+		
+		$location = $_POST['nh-event-location'];
 		update_post_meta( $post_id, 'location', $location );
 	}
 	
