@@ -156,7 +156,7 @@ class UNCC_CustomEventPostType{
 			$time = '';
 		}
 		
-                $enddatetime = get_post_meta( $post->ID, 'datetime', true );
+                $enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
                 if( !empty($enddatetime) )
                 {
                         $enddatetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
