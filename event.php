@@ -211,18 +211,14 @@ class UNCC_CustomEventPostType{
 		return;
 
 		$datetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date'].' '.$_POST['nh-event-time'] );
-		if( $datetime ) {
+		if( is_a($datetime, "DateTime" ) ) {
 			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
-        } else {
-			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
-        }
-
+		}
+		
 		//Adding end date function
 		$enddatetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date-end'].' '.$_POST['nh-event-time-end'] );
 		
-		if( $enddatetime ) {
-			update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
-		} else {
+		if( is_a($enddatetime, "DateTime" ) ) {
 			update_post_meta( $post_id, 'enddatetime', $enddatetime->format('Y-m-d H:i:s') );
 		}
 		
