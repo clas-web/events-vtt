@@ -144,33 +144,40 @@ class UNCC_CustomEventPostType{
 		wp_nonce_field( plugin_basename( __FILE__ ), 'nh-custom-event-post' );
 
 		$datetime = get_post_meta( $post->ID, 'datetime', true );
-		if( !empty($datetime) )
-		{
-			$datetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $datetime );
+ 		print $datetime."</br>";
+		
+		if ( !empty($datetime) ) { 
+			$datetimeformat = DateTime::createFromFormat( 'm/d/Y H:i A', $datetime );
+			if ( is_a($datetimeformat, "DateTime" )) {
+				$datetime = $datetimeformat;
+			} else {
+				$datetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $datetime );
+			}
 			$date = $datetime->format('Y-m-d');
 			$time = $datetime->format('h:i A');
-		}
-		else
-		{
+		} else {
 			$date = '';
 			$time = '';
 		}
 		
-		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
-		if( !empty($enddatetime) )
-		{
+  		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
+ 		print $enddatetime."</br>";
+		
+		if ( !empty($enddatetime) ) { 
+			$enddatetimeformat = DateTime::createFromFormat( 'm/d/Y H:i A', $enddatetime );
+			if ( is_a($enddatetimeformat, "DateTime" )) {
+				$enddatetime = $enddatetimeformat;
+			} else {
 				$enddatetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
-				$enddate = $enddatetime->format('Y-m-d');
-				$endtime = $enddatetime->format('h:i A');
+			}
+			$enddate = $enddatetime->format('Y-m-d');
+			$endtime = $enddatetime->format('h:i A');
+		} else {
+			$enddate = '';
+			$endtime = '';
 		}
-		else
-		{
-				$enddate = '';
-				$endtime = '';
-		}
-                
-		$location = get_post_meta( $post->ID, 'location', true );
-                                
+              
+		$location = get_post_meta( $post->ID, 'location', true );                    
 		?>
                 <label for="nh-event-date">Date</label><br/>
                 <input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($date); ?>" size="32" /><br/>
