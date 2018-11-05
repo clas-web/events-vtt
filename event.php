@@ -163,20 +163,40 @@ class UNCC_CustomEventPostType{
   		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
  		print $enddatetime."</br>";
 		
+                //Initializing variables
+                $enddate = '';
+                $endtime = '';
+                
 		if ( !empty($enddatetime) ) { 
-			$enddatetimeformat = DateTime::createFromFormat( 'm/d/Y H:i A', $enddatetime );
-			if ( is_a($enddatetimeformat, "DateTime" )) {
-				$enddatetime = $enddatetimeformat;
-			} else {
-				$enddatetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
-			}
-			$enddate = $enddatetime->format('Y-m-d');
-			$endtime = $enddatetime->format('h:i A');
-		} else {
-			$enddate = '';
-			$endtime = '';
-		}
-              
+			$enddatetimeformat1 = DateTime::createFromFormat( 'm/d/Y H:i A', $enddatetime );
+                        $enddatetimeformat12 = DateTime::createFromFormat( 'm/d/Y', $enddatetime );
+                        $enddatetimeformat13 = DateTime::createFromFormat( 'H:i A', $enddatetime );                                                
+                        $enddatetimeformat2 = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
+                        $enddatetimeformat22 = DateTime::createFromFormat( 'Y-m-d', $enddatetime );
+                        $enddatetimeformat23 = DateTime::createFromFormat( 'H:i:s', $enddatetime );
+			if ( is_a($enddatetimeformat1, "DateTime" )) {
+				$enddatetime = $enddatetimeformat1;
+                                $enddate = $enddatetime->format('Y-m-d');
+                                $endtime = $enddatetime->format('h:i A');
+			} else if ( is_a($enddatetimeformat2, "DateTime" )) {
+                                $enddatetime = $enddatetimeformat2;
+                                $enddate = $enddatetime->format('Y-m-d');
+                                $endtime = $enddatetime->format('h:i A');
+                        } else if ( is_a($enddatetimeformat12, "DateTime" )) {
+                                $enddatetime = $enddatetimeformat12;
+                                $enddate = $enddatetime->format('Y-m-d');
+                        } else if ( is_a($enddatetimeformat13, "DateTime" )) {
+                                $enddatetime = $enddatetimeformat13;                                
+                                $endtime = $enddatetime->format('h:i A');
+                        } else if ( is_a($enddatetimeformat22, "DateTime" )) {
+                                $enddatetime = $enddatetimeformat22;
+                                $enddate = $enddatetime->format('Y-m-d');
+                        } else if ( is_a($enddatetimeformat23, "DateTime" )) {
+                                $enddatetime = $enddatetimeformat23;
+                                $endtime = $enddatetime->format('h:i A');
+                        }                        			 			
+		}               
+                
 		$location = get_post_meta( $post->ID, 'location', true );                    
 		?>
                 <label for="nh-event-date">Date</label><br/>
