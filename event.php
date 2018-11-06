@@ -142,67 +142,91 @@ class UNCC_CustomEventPostType{
 	public static function info_box_content( $post )
 	{
 		wp_nonce_field( plugin_basename( __FILE__ ), 'nh-custom-event-post' );
-
+		
+		// get datetime and enddatetime from post meta
 		$datetime = get_post_meta( $post->ID, 'datetime', true );
- 		print $datetime."</br>";
+		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
+
+//  	print $datetime."</br>";
+//  	print $enddatetime."</br>";
+ 		
+ 		$eventtimes = array("start" => $datetime, "end" => $enddatetime);
+ //		$numbers = array(1, 2, 3);
+//  		print_r ($numbers[0]); print "</br>";
+// 		print_r ($eventtimes); print "</br>";
+ 		
+ 		 //Initializing variables
+		$startdate = '';
+		$starttime = '';
+		$enddate = '';
+		$endtime = '';
 		
-		if ( !empty($datetime) ) { 
-			$datetimeformat = DateTime::createFromFormat( 'm/d/Y H:i A', $datetime );
-			if ( is_a($datetimeformat, "DateTime" )) {
-				$datetime = $datetimeformat;
-			} else {
-				$datetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $datetime );
-			}
-			$date = $datetime->format('Y-m-d');
-			$time = $datetime->format('h:i A');
-		} else {
-			$date = '';
-			$time = '';
-		}
-		
-  		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
- 		print $enddatetime."</br>";
-		
-                //Initializing variables
-                $enddate = '';
-                $endtime = '';
-                
-		if ( !empty($enddatetime) ) { 
-			$enddatetimeformat1 = DateTime::createFromFormat( 'm/d/Y H:i A', $enddatetime );
-                        $enddatetimeformat12 = DateTime::createFromFormat( 'm/d/Y', $enddatetime );
-                        $enddatetimeformat13 = DateTime::createFromFormat( 'H:i A', $enddatetime );                                                
-                        $enddatetimeformat2 = DateTime::createFromFormat( 'Y-m-d H:i:s', $enddatetime );
-                        $enddatetimeformat22 = DateTime::createFromFormat( 'Y-m-d', $enddatetime );
-                        $enddatetimeformat23 = DateTime::createFromFormat( 'H:i:s', $enddatetime );
-			if ( is_a($enddatetimeformat1, "DateTime" )) {
-				$enddatetime = $enddatetimeformat1;
-                                $enddate = $enddatetime->format('Y-m-d');
-                                $endtime = $enddatetime->format('h:i A');
-			} else if ( is_a($enddatetimeformat2, "DateTime" )) {
-                                $enddatetime = $enddatetimeformat2;
-                                $enddate = $enddatetime->format('Y-m-d');
-                                $endtime = $enddatetime->format('h:i A');
-                        } else if ( is_a($enddatetimeformat12, "DateTime" )) {
-                                $enddatetime = $enddatetimeformat12;
-                                $enddate = $enddatetime->format('Y-m-d');
-                        } else if ( is_a($enddatetimeformat13, "DateTime" )) {
-                                $enddatetime = $enddatetimeformat13;                                
-                                $endtime = $enddatetime->format('h:i A');
-                        } else if ( is_a($enddatetimeformat22, "DateTime" )) {
-                                $enddatetime = $enddatetimeformat22;
-                                $enddate = $enddatetime->format('Y-m-d');
-                        } else if ( is_a($enddatetimeformat23, "DateTime" )) {
-                                $enddatetime = $enddatetimeformat23;
-                                $endtime = $enddatetime->format('h:i A');
-                        }                        			 			
-		}               
+// 		if ( !empty($datetime) ) { 
+// 			$datetimeformat = DateTime::createFromFormat( 'm/d/Y H:i A', $datetime );
+// 			if ( is_a($datetimeformat, "DateTime" )) {
+// 				$datetime = $datetimeformat;
+// 			} else {
+// 				$datetime = DateTime::createFromFormat( 'Y-m-d H:i:s', $datetime );
+// 			}
+// 			$date = $datetime->format('Y-m-d');
+// 			$time = $datetime->format('h:i A');
+// 		} else {
+// 			$date = '';
+// 			$time = '';
+// 		}
+
+        foreach ( $eventtimes as $key => $eventtime ) { 
+        	print $key." => ";
+        	print $eventtime."</br>";
+        	
+			if ( !empty($eventtime) ) { 
+				$datetimeformat1 = DateTime::createFromFormat( 'm/d/Y H:i A', $eventtime );
+				$datetimeformat2 = DateTime::createFromFormat( 'Y-m-d H:i:s', $eventtime );
+				$datetimeformat12 = DateTime::createFromFormat( 'm/d/Y', $eventtime );
+				$datetimeformat13 = DateTime::createFromFormat( 'H:i A', $eventtime );                                                
+				$datetimeformat22 = DateTime::createFromFormat( 'Y-m-d', $eventtime );
+				$datetimeformat23 = DateTime::createFromFormat( 'H:i:s', $eventtime );
+				$date = '';
+				$time = '';
+				
+				if ( is_a($datetimeformat1, "DateTime" )) {
+					$datetime = $datetimeformat1;
+					$date = $datetime->format('Y-m-d');
+					$time = $datetime->format('h:i A');
+				} else if ( is_a($datetimeformat2, "DateTime" )) {
+					$datetime = $datetimeformat2;
+					$date = $datetime->format('Y-m-d');
+					$time = $datetime->format('h:i A');
+				} else if ( is_a($datetimeformat12, "DateTime" )) {
+					$datetime = $datetimeformat12;
+					$date = $datetime->format('Y-m-d');
+				} else if ( is_a($datetimeformat13, "DateTime" )) {
+					$datetime = $datetimeformat13;                                
+					$time = $datetime->format('h:i A');
+				} else if ( is_a($datetimeformat22, "DateTime" )) {
+					$datetime = $datetimeformat22;
+					$date = $datetime->format('Y-m-d');
+				} else if ( is_a($datetimeformat23, "DateTime" )) {
+					$datetime = $datetimeformat23;
+					$time = $datetime->format('h:i A');
+				}
+				
+				if ($key == "start") {
+					if (!empty($date)) $startdate = $date;
+					if (!empty($time)) $starttime = $time;
+				} else if ($key == "end") {
+					if (!empty($date)) $enddate = $date;
+					if (!empty($time)) $endtime = $time;
+				}               			 			
+			} 
+		}             
                 
 		$location = get_post_meta( $post->ID, 'location', true );                    
 		?>
                 <label for="nh-event-date">Date</label><br/>
-                <input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($date); ?>" size="32" /><br/>
+                <input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($startdate); ?>" size="32" /><br/>
                 <label for="nh-event-time">Time</label><br/>
-                <input type="text" id="nh-event-time" name="nh-event-time" value="<?php echo esc_attr($time); ?>" size="32" /><br/>
+                <input type="text" id="nh-event-time" name="nh-event-time" value="<?php echo esc_attr($starttime); ?>" size="32" /><br/>
                 <label for="nh-event-date-end">End Date</label><br/>
                 <input type="text" id="nh-event-date-end" name="nh-event-date-end" value="<?php echo esc_attr($enddate); ?>" size="32" /><br/>
                 <label for="nh-event-time-end">End Time</label><br/>
@@ -228,14 +252,15 @@ class UNCC_CustomEventPostType{
 		return;
 		
 		if ( !current_user_can( 'edit_page', $post_id ) )
-		return;
+		return;	
 
 		$datetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date'].' '.$_POST['nh-event-time'] );
+		
 		if( is_a($datetime, "DateTime" ) ) {
 			update_post_meta( $post_id, 'datetime', $datetime->format('Y-m-d H:i:s') );
 		}
 		
-		//Adding end date function
+// 		Adding end date function
 		$enddatetime = DateTime::createFromFormat( 'Y-m-d h:i A', $_POST['nh-event-date-end'].' '.$_POST['nh-event-time-end'] );
 		
 		if( is_a($enddatetime, "DateTime" ) ) {
