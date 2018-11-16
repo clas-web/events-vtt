@@ -18,9 +18,15 @@ global $wp_query, $post;
 				$excerpt .= UNCC_CustomEventPostType::get_excerpt($post);
 				$excerpt .= '</div>';
 				$event_info = '<div class="event-info">';
-				if($post->datetime){
+				//Display the start date
+                                if($post->datetime){
 					$event_info .= '<div class="datetime">'.date('F j, Y - g:i A', strtotime($post->datetime)).'</div>';
 				}
+                                //Display the end date
+                                if($post->enddatetime){
+					$event_info .= '<div class="enddatetime">'.date('F j, Y - g:i A', strtotime($post->enddatetime)).'</div>';
+				}
+                                //Display the location
 				if($post->location){
 					$event_info .= '<div class="location">'.$post->location.'</div>';
 				}

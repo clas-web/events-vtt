@@ -111,15 +111,19 @@ else:
 	$current_date->sub( new DateInterval('P1D') ); 
 	$close_previous_day = false;
 	
-
+        //Grab each post for the Event listing at /exchange/event/
 	foreach( $posts as $post ):
 		$datetime_meta = $post->datetime;
+                $enddatetime_meta = $post->enddatetime;
+
 		if( !empty($datetime_meta) ){
-			$datetime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime_meta);
+                    $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime_meta);                    
+		}		
+                if( !empty($enddatetime_meta) ){
+                    $enddatetime = DateTime::createFromFormat('Y-m-d H:i:s', $enddatetime_meta);                    
 		}
-		
 		$same_day = true;
-		
+                
 		if( $datetime->format('y-d-M') != $current_date->format('y-d-M') )
 		{
 			
@@ -167,12 +171,39 @@ else:
 					$excerpt .= UNCC_CustomEventPostType::get_excerpt($post);
 					$excerpt .= '</div>';
 					$event_info = '<div class="event-info">';
+                                        
+                                        //display the start date of the selected event
 					if($post->datetime){
-						$event_info .= '<div class="datetime">'.date('F j, Y - g:i A', strtotime($post->datetime)).'</div>';
+                                            //If the start date is just a date w/ no time, it will default to 12:00 AM
+                                            //Thus, only display the date if the selected start time is 12:00 AM (hopefully no midnight events)
+                                             if (date('g:i A', strtotime($post->datetime))=='12:00 AM'){
+                                                 $event_info .= '<div class="datetime">'.date('F j, Y', strtotime($post->datetime)).'</div>';                                                                                            
+                                            //Otherwise, post the whole start date and time
+                                             } else {
+                                                 $event_info .= '<div class="datetime">'.date('F j, Y - g:i A', strtotime($post->datetime)).'</div>';                                                                                                                                             
+                                             }                                                
 					}
+                                        
+                                        //display the end date of the selected event
+                                        if($post->enddatetime){
+                                            //If the end date is just a date w/ no time, it will default to 12:00 AM
+                                            //Thus, only display the date if the selected end time is 12:00 AM (hopefully no midnight events)
+                                            if (date('g:i A', strtotime($post->enddatetime))=='12:00 AM'){
+                                                $event_info .= '<div class="enddatetime">'.date('F j, Y', strtotime($post->enddatetime)).'</div>';
+                                            //If there's just an end time with no end date, add just the time (considered same day)
+                                            } else if(date('F j, Y')==date('F j, Y', strtotime($post->enddatetime))){
+                                                $event_info .= '<div class="enddatetime">to '.date('g:i A', strtotime($post->enddatetime)).'</div>';
+                                            //Otherwise, post the whole end date and time                                                         
+                                            } else {
+                                                $event_info .= '<div class="enddatetime">'.date('F j, Y - g:i A', strtotime($post->enddatetime)).'</div>';
+                                            }
+                                        }
+                                        
+                                        //display the location
 					if($post->location){
 						$event_info .= '<div class="location">'.$post->location.'</div>';
 					}
+                                        
 					$event_info .= '</div>';
 
 					echo $excerpt;

@@ -147,6 +147,7 @@ class UNCC_CustomEventPostType{
 		$datetime = get_post_meta( $post->ID, 'datetime', true );
 		$enddatetime = get_post_meta( $post->ID, 'enddatetime', true );
 
+                //create array for both start date and end date values
  		$eventtimes = array("start" => $datetime, "end" => $enddatetime);
  		
  		//Initializing variables
@@ -155,8 +156,10 @@ class UNCC_CustomEventPostType{
 		$enddate = '';
 		$endtime = '';
 
+                //cycle through array
                 foreach ( $eventtimes as $key => $eventtime ) {                                     
-
+                        
+                        //check to see which date/time format the start date and end date values are
                         if ( !empty($eventtime) ) { 
                                 $datetimeformat1 = DateTime::createFromFormat( 'm/d/Y H:i A', $eventtime );
                                 $datetimeformat2 = DateTime::createFromFormat( 'Y-m-d H:i:s', $eventtime );
@@ -167,6 +170,7 @@ class UNCC_CustomEventPostType{
                                 $date = '';
                                 $time = '';
 
+                                //format the start/end date values properly
                                 if ( is_a($datetimeformat1, "DateTime" )) {
                                         $datetime = $datetimeformat1;
                                         $date = $datetime->format('Y-m-d');
@@ -188,7 +192,7 @@ class UNCC_CustomEventPostType{
                                         $datetime = $datetimeformat23;
                                         $time = $datetime->format('h:i A');
                                 }
-
+                                //Determine where date/time values get assigned to which array member
                                 if ($key == "start") {
                                         if (!empty($date)) $startdate = $date;
                                         if (!empty($time)) $starttime = $time;
@@ -200,6 +204,8 @@ class UNCC_CustomEventPostType{
                 }             
 
                 $location = get_post_meta( $post->ID, 'location', true );                    
+                
+                //print values
                 ?>
                 <label for="nh-event-date">Date</label><br/>
                 <input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($startdate); ?>" size="32" /><br/>
@@ -239,6 +245,7 @@ class UNCC_CustomEventPostType{
 		$nheventtime = '';
                 $datetimestring = '';
                 
+                //cycle through array for both start date and end date values
                 foreach ( $eventtimes as $key => $eventtime ) {  
                  
                         if ($key == "start") {
@@ -251,6 +258,7 @@ class UNCC_CustomEventPostType{
                                 $datetimestring = 'enddatetime';                               
 			}
                         
+                        //check to see which date/time format the start date and end date values are
                         $datetimeformat1 = DateTime::createFromFormat( 'Y-m-d h:i A', $nheventdate.' '.$nheventtime );
                         $datetimeformat12 = DateTime::createFromFormat( 'Y-m-d', $nheventdate );                
                         $datetimeformat13 = DateTime::createFromFormat( 'h:i A', $nheventtime );                
@@ -258,6 +266,7 @@ class UNCC_CustomEventPostType{
                         $datetimeformat22 = DateTime::createFromFormat( 'm/d/Y', $nheventdate );
                         $datetimeformat23 = DateTime::createFromFormat( 'h:i:s', $nheventtime );                            
 
+                        //Update WP meta box accordingly
                         if( is_a($datetimeformat1, "DateTime" ) ) {
                                 update_post_meta( $post_id, $datetimestring, $datetimeformat1->format('Y-m-d H:i:s') );
                         } else if( is_a($datetimeformat12, "DateTime" ) ) {

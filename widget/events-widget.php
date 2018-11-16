@@ -113,16 +113,45 @@ class UNCC_WidgetEventsListingControl extends WidgetShortcodeControl
 	
 		$posts = get_posts(array('post_type'=>'event','numberposts'=>$items));
 		
+                //Grab each post for the right sidebar "Upcoming Events" widget
 		foreach($posts as $post){
 			echo '<h3>'.vtt_get_anchor(get_permalink($post), $post->post_title, null, $post->post_title).'</h3>';
 			echo '<div class="contents">';
 			$event_info = '<div class="event-info">';
+                        
+                        //display the start date of the selected event
 			if($post->datetime){
-				$event_info .= '<div class="datetime">'.date('F j, Y - g:i A', strtotime($post->datetime)).'</div>';
+                                //If the start date is just a date w/ no time, it will default to 12:00 AM
+                                //Thus, only display the date if the selected start time is 12:00 AM (hopefully no midnight events)
+                                if (date('g:i A', strtotime($post->datetime))=='12:00 AM'){
+                                    $event_info .= '<div class="datetime">'.date('F j, Y', strtotime($post->datetime)).'</div>';
+                                //Otherwise, post the whole start date and time
+                                } else {
+                                    $event_info .= '<div class="datetime">'.date('F j, Y - g:i A', strtotime($post->datetime)).'</div>';
+                                }
+				
 			}
+                        
+                        //display the end date of the selected event
+                        if($post->enddatetime){
+                                //If the end date is just a date w/ no time, it will default to 12:00 AM
+                                //Thus, only display the date if the selected end time is 12:00 AM (hopefully no midnight events)
+				if (date('g:i A', strtotime($post->enddatetime))=='12:00 AM'){
+                                    $event_info .= '<div class="enddatetime">'.date('F j, Y', strtotime($post->enddatetime)).'</div>';
+                                //If there's just an end time with no end date, add just the time (considered same day)
+                                } else if(date('F j, Y')==date('F j, Y', strtotime($post->enddatetime))){
+                                        $event_info .= '<div class="enddatetime">to '.date('g:i A', strtotime($post->enddatetime)).'</div>';
+                                //Otherwise, post the whole end date and time                                        
+                                } else {
+                                        $event_info .= '<div class="enddatetime">'.date('F j, Y - g:i A', strtotime($post->enddatetime)).'</div>';
+                                }
+			}
+                        
+                        //display the location
 			if($post->location){
 				$event_info .= '<div class="location">'.$post->location.'</div>';
 			}
+                        
 			$event_info .= '</div>';
 			echo $event_info;
 			echo '</div>';
