@@ -1,4 +1,4 @@
-<?php //vtt_print('default:content:listing-events');     ?>
+<?php //vtt_print('default:content:listing-events');    ?>
 <?php
 global $wp_query;
 //$nhs_section = nhs_get_wpquery_section();
@@ -106,30 +106,17 @@ else:
     $current_date = new DateTime($start_datetime->format('Y-m-d'));
     $current_date->sub(new DateInterval('P1D'));
     $close_previous_day = false;
-    $globaldate=TRUE;
-    
+
     //Grab each post for the Event listing at /exchange/event/
     foreach ($posts as $post):
         $datetime_meta = $post->datetime;
-    if (!is_a($datetime_meta, "DateTime")) {
-                 $globaldate=FALSE;
-                 print $globaldate.'<br><br><br><br>';
-             }
         $enddatetime_meta = $post->enddatetime;
 
         if (!empty($datetime_meta)) {
             $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime_meta);
-             if (!is_a($datetime, "DateTime")) {
-                 $globaldate=FALSE;
-             }
-             print $globaldate.'<br><br><br><br>';
-            $datetimeday = DateTime::createFromFormat('Y-m-d', $datetime_meta);
-            $datetimehour = DateTime::createFromFormat('H:i:s', $datetime_meta);
         }
         if (!empty($enddatetime_meta)) {
             $enddatetime = DateTime::createFromFormat('Y-m-d H:i:s', $enddatetime_meta);
-            $enddatetimeday = DateTime::createFromFormat('Y-m-d', $enddatetime_meta);
-            $enddatetimehour = DateTime::createFromFormat('H:i:s', $enddatetime_meta);
         }
         $same_day = true;
 
@@ -157,17 +144,20 @@ else:
                 <div class="day-events">
                     <?php
                     $close_previous_day = true;
-                } else {
-                    print "nope";
                 }
                 ?>
 
                 <div <?php post_class('story events-section listing'); ?>>
                     <?php echo vtt_get_anchor(get_permalink($post), $post->post_title); ?>
+
                     <div class="description">
+
                         <h3><?php echo $post->post_title; ?></h3>
+
                         <?php //if( count($post->$description) > 0 ):  ?>
+
                         <div class="contents">
+
                             <?php
                             $excerpt = '<div class="excerpt">';
                             $excerpt .= UNCC_CustomEventPostType::get_excerpt($post);
@@ -176,65 +166,41 @@ else:
 
                             //display the start date of the selected event
                             if ($post->datetime) {
-
-                                //$datetime = $post->datetime;
+                                
+                                $datetime = $post->datetime;
 
                                 //check to see which date/time format the start date and end date values are
-//                                $datetimeformat1 = DateTime::createFromFormat('m/d/Y H:i A', $datetime);
-//                                $datetimeformat2 = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
-//                                $datetimeformat12 = DateTime::createFromFormat('m/d/Y', $datetime);
-//                                $datetimeformat22 = DateTime::createFromFormat('Y-m-d', $datetime);
-//
-//                                //format the start/end date values properly
-//                                if (is_a($datetimeformat1, "DateTime")) {
-//                                    $datetime = $datetimeformat1;
-//                                    $date = $datetime->format('Y-m-d');
-//                                    $time = $datetime->format('h:i A');
-//                                    print "1";
-//                                } else if (is_a($datetimeformat2, "DateTime")) {
-//                                    $datetime = $datetimeformat2;
-//                                    $date = $datetime->format('Y-m-d');
-//                                    $time = $datetime->format('h:i A');
-//                                    print "2"; print $time;
-//                                } else if (is_a($datetimeformat12, "DateTime")) {
-//                                    $datetime = $datetimeformat12;
-//                                    $date = $datetime->format('Y-m-d');
-//                                    print "3";
-//                                } else if (is_a($datetimeformat22, "DateTime")) {
-//                                    $datetime = $datetimeformat22;
-//                                    $date = $datetime->format('Y-m-d');
-//                                    print "4";
-//                                }
-                                
-                                if (is_a($datetimeday, "DateTime")) {
-                                    $datetimeprint = $datetimeday;
-                                    $date = $datetimeprint->format('Y-m-d');
-                                    $time = '12:00 AM';
-                                    print "2";
-                                } else if (is_a($datetimehour, "DateTime")) {
-                                    $datetimeprint = $datetimehour;
+                                $datetimeformat1 = DateTime::createFromFormat('m/d/Y H:i A', $datetime);
+                                $datetimeformat2 = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
+                                $datetimeformat12 = DateTime::createFromFormat('m/d/Y', $datetime);
+                                $datetimeformat22 = DateTime::createFromFormat('Y-m-d', $datetime);
+
+                                //format the start/end date values properly
+                                if (is_a($datetimeformat1, "DateTime")) {
+                                    $datetime = $datetimeformat1;
                                     $date = $datetime->format('Y-m-d');
-                                    $time = '12:00 AM';
-                                    print "3";
-                                } else if (is_a($datetime, "DateTime")) {
-                                    $datetimeprint = $datetime;
+                                    $time = $datetime->format('h:i A');
+                                } else if (is_a($datetimeformat2, "DateTime")) {
+                                    $datetime = $datetimeformat2;
                                     $date = $datetime->format('Y-m-d');
-                                    $time = '12:00 AM';
-                                    print "1";
+                                    $time = $datetime->format('h:i A');
+                                } else if (is_a($datetimeformat12, "DateTime")) {
+                                    $datetime = $datetimeformat12;
+                                    $date = $datetime->format('Y-m-d');
+                                } else if (is_a($datetimeformat22, "DateTime")) {
+                                    $datetime = $datetimeformat22;
+                                    $date = $datetime->format('Y-m-d');
                                 }
-                                
-                                
-                                print "testing";
                                 //If the start date is just a date w/ no time, it will default to 12:00 AM
                                 //Thus, only display the date if the selected start time is 12:00 AM (hopefully no midnight events)
-//                                print date('g:i A', strtotime($post->datetime)); print "<br>";
-//                                print date('g:i A', strtotime($post->date));print "<br>";
-                                if ($time == '12:00 AM') {
-                                    //$event_info .= '<div class="datetime">' . date('F j, Y', strtotime($post->datetime)) . '</div>';
-                                    $event_info .= '<div class="datetime">' . $date . '</div>';
+                                print date('g:i A', strtotime($post->datetime)); print "<br>";
+                                print date('g:i A', strtotime($post->date));print "<br>";
+                                if (date('g:i A', strtotime($post->date)) == '12:00 AM') {
+                                    $event_info .= '<div class="datetime">' . date('F j, Y', strtotime($post->datetime)) . '</div>';
+                                    //$event_info .= '<div class="datetime">'. date('F j, Y', strtotime($date)).'</div>';
                                     //Otherwise, post the whole start date and time
                                 } else {
-                                    $event_info .= '<div class="datetime">' . $date.$time . '</div>';
+                                    $event_info .= '<div class="datetime">' . date('F j, Y - g:i A', strtotime($date)). '</div>';
                                 }
                             }
 
@@ -266,23 +232,24 @@ else:
 
                         </div><!-- .contents -->
 
-                        <?php //endif;  ?>
+        <?php //endif;  ?>
 
                     </div><!-- .description -->
 
                     </a>
                 </div><!-- .story -->
-                <?php
-            endforeach;
+        <?php
+    endforeach;
 
-            if (count($posts) > 0):
-                ?>
+    if (count($posts) > 0):
+        ?>
             </div><!-- .day-events -->
         </div><!-- .agenda-day -->
         <?php
     endif;
 
 //vtt_get_template_part( 'pagination', 'other', $nhs_section->key );
+
 
 endif;
 ?>
