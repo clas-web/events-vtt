@@ -158,10 +158,12 @@ if (!class_exists('UNCC_CustomEventPostType')):
                 if (!empty($eventtime)) {
                     $datetimeformat1 = DateTime::createFromFormat('m/d/Y H:i A', $eventtime);
                     $datetimeformat2 = DateTime::createFromFormat('Y-m-d H:i:s', $eventtime);
-                    $datetimeformat12 = DateTime::createFromFormat('m/d/Y', $eventtime);
-                    $datetimeformat13 = DateTime::createFromFormat('H:i A', $eventtime);
-                    $datetimeformat22 = DateTime::createFromFormat('Y-m-d', $eventtime);
-                    $datetimeformat23 = DateTime::createFromFormat('H:i:s', $eventtime);
+                    
+                    $dateformat1 = DateTime::createFromFormat('m/d/Y', $eventtime);                    
+                    $dateformat2 = DateTime::createFromFormat('Y-m-d', $eventtime);
+                    
+                    $timeformat1 = DateTime::createFromFormat('H:i A', $eventtime);                   
+                    $timeformat2 = DateTime::createFromFormat('H:i:s', $eventtime);
                     $date = '';
                     $time = '';
 
@@ -170,23 +172,30 @@ if (!class_exists('UNCC_CustomEventPostType')):
                         $datetime = $datetimeformat1;
                         $date = $datetime->format('Y-m-d');
                         $time = $datetime->format('h:i A');
+                        
                     } else if (is_a($datetimeformat2, "DateTime")) {
                         $datetime = $datetimeformat2;
                         $date = $datetime->format('Y-m-d');
                         $time = $datetime->format('h:i A');
-                    } else if (is_a($datetimeformat12, "DateTime")) {
-                        $datetime = $datetimeformat12;
+                        
+                    } else if (is_a($dateformat1, "DateTime")) {
+                        $datetime = $dateformat1;
                         $date = $datetime->format('Y-m-d');
-                    } else if (is_a($datetimeformat13, "DateTime")) {
-                        $datetime = $datetimeformat13;
+                        
+                    } else if (is_a($timeformat1, "DateTime")) {
+                        $datetime = $timeformat1;
                         $time = $datetime->format('h:i A');
-                    } else if (is_a($datetimeformat22, "DateTime")) {
-                        $datetime = $datetimeformat22;
+                        
+                    } else if (is_a($dateformat2, "DateTime")) {
+                        $datetime = $dateformat2;
                         $date = $datetime->format('Y-m-d');
-                    } else if (is_a($datetimeformat23, "DateTime")) {
-                        $datetime = $datetimeformat23;
+                        
+                    } else if (is_a($timeformat2, "DateTime")) {
+                        $datetime = $timeformat2;
                         $time = $datetime->format('h:i A');
+                        
                     }
+                    
                     //Determine where date/time values get assigned to which array member
                     if ($key == "start") {
                         if (!empty($date))
@@ -258,25 +267,33 @@ if (!class_exists('UNCC_CustomEventPostType')):
 
                 //check to see which date/time format the start date and end date values are
                 $datetimeformat1 = DateTime::createFromFormat('Y-m-d h:i A', $nheventdate . ' ' . $nheventtime);
-                $datetimeformat12 = DateTime::createFromFormat('Y-m-d', $nheventdate);
-                $datetimeformat13 = DateTime::createFromFormat('h:i A', $nheventtime);
                 $datetimeformat2 = DateTime::createFromFormat('Y-m-d h:i:s', $nheventdate . ' ' . $nheventtime);
-                $datetimeformat22 = DateTime::createFromFormat('m/d/Y', $nheventdate);
-                $datetimeformat23 = DateTime::createFromFormat('h:i:s', $nheventtime);
+                
+                $dateformat1 = DateTime::createFromFormat('Y-m-d', $nheventdate);
+                $dateformat2 = DateTime::createFromFormat('m/d/Y', $nheventdate);
+                
+                $timeformat1 = DateTime::createFromFormat('h:i A', $nheventtime);
+                $timeformat2 = DateTime::createFromFormat('h:i:s', $nheventtime);
 
                 //Update WP meta box accordingly
                 if (is_a($datetimeformat1, "DateTime")) {
                     update_post_meta($post_id, $datetimestring, $datetimeformat1->format('Y-m-d H:i:s'));
-                } else if (is_a($datetimeformat12, "DateTime")) {
-                    update_post_meta($post_id, $datetimestring, $datetimeformat12->format('Y-m-d'));
-                } else if (is_a($datetimeformat13, "DateTime")) {
-                    update_post_meta($post_id, $datetimestring, $datetimeformat13->format('H:i:s'));
+                    
+                } else if (is_a($dateformat1, "DateTime")) {
+                    update_post_meta($post_id, $datetimestring, $dateformat1->format('Y-m-d'));
+                    
+                } else if (is_a($timeformat1, "DateTime")) {
+                    update_post_meta($post_id, $datetimestring, $timeformat1->format('H:i:s'));
+                    
                 } else if (is_a($datetimeformat2, "DateTime")) {
                     update_post_meta($post_id, $datetimestring, $datetimeformat2->format('Y-m-d H:i:s'));
-                } else if (is_a($datetimeformat22, "DateTime")) {
-                    update_post_meta($post_id, $datetimestring, $datetimeformat22->format('Y-m-d'));
-                } else if (is_a($datetimeformat23, "DateTime")) {
-                    update_post_meta($post_id, $datetimestring, $datetimeformat23->format('H:i:s'));
+                    
+                } else if (is_a($dateformat2, "DateTime")) {
+                    update_post_meta($post_id, $datetimestring, $dateformat2->format('Y-m-d'));
+                    
+                } else if (is_a($timeformat2, "DateTime")) {
+                    update_post_meta($post_id, $datetimestring, $timeformat2->format('H:i:s'));
+                    
                 } else {
                 	update_post_meta($post_id, $datetimestring, "");
                 }
