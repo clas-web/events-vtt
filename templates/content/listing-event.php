@@ -200,14 +200,15 @@ else:
                             if ($post->datetime) {                               
                                  //If the start date is just a date w/ no time, it will default to 12:00 AM
                                 //Thus, only display the date if the selected start time is 12:00 AM (hopefully no midnight events)
-                                print date('g:i A', strtotime($post->datetime)); print "<br>";
-                                print date('g:i A', strtotime($post->date));print "<br>";
-                                if (date('g:i A', strtotime($post->date)) == '12:00 AM') {
+//                                 print date('g:i A', strtotime($post->datetime)); print "<br>";
+//                                 print date('g:i A', strtotime($post->date));print "<br>";
+
+                                if (date('g:i A', strtotime($post->datetime)) == '12:00 AM') {
                                     $event_info .= '<div class="datetime">' . date('F j, Y', strtotime($post->datetime)) . '</div>';
                                     //$event_info .= '<div class="datetime">'. date('F j, Y', strtotime($date)).'</div>';
                                     //Otherwise, post the whole start date and time
                                 } else {
-                                    $event_info .= '<div class="datetime">' . date('F j, Y - g:i A', strtotime($date)). '</div>';
+                                    $event_info .= '<div class="datetime">' . date('F j, Y - g:i A', strtotime($post->datetime)). '</div>';
                                 }
                             }
 
@@ -216,10 +217,10 @@ else:
                                 //If the end date is just a date w/ no time, it will default to 12:00 AM
                                 //Thus, only display the date if the selected end time is 12:00 AM (hopefully no midnight events)
                                 if (date('g:i A', strtotime($post->enddatetime)) == '12:00 AM') {
-                                    $event_info .= '<div class="enddatetime">' . date('F j, Y', strtotime($post->enddatetime)) . '</div>';
+                                    $event_info .= '<div class="enddatetime"> to ' . date('F j, Y', strtotime($post->enddatetime)) . '</div>';
                                     //If there's just an end time with no end date, add just the time (considered same day)
                                 } else if (date('F j, Y') == date('F j, Y', strtotime($post->enddatetime))) {
-                                    $event_info .= '<div class="enddatetime">to ' . date('g:i A', strtotime($post->enddatetime)) . '</div>';
+                                    $event_info .= '<div class="enddatetime"> to ' . date('g:i A', strtotime($post->enddatetime)) . '</div>';
                                     //Otherwise, post the whole end date and time                                                         
                                 } else {
                                     $event_info .= '<div class="enddatetime">' . date('F j, Y - g:i A', strtotime($post->enddatetime)) . '</div>';
