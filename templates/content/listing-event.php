@@ -151,6 +151,33 @@ else:
 // 				$datetime = $dateformat2;
 // 				$date = $datetime->format('Y-m-d');
 //  			}
+       
+			// print out day, month year in left aligned div if NOT the current day
+			// (not need to repeat this box for every event on a given day)
+			if ($event_date->format('y-d-M') != $current_date->format('y-d-M')) {
+
+				$same_day = false;
+				$current_date = $event_date;
+				$month = $current_date->format('F');
+				$day = $current_date->format('j');
+				$weekday = $current_date->format('l');
+
+				if ($close_previous_day) {
+					print "</div><!-- .day-events -->";
+					print "</div><!-- .agenda-day -->";
+				}
+				?>
+				<div class="agenda-day">
+					<div class="date-label">
+						<div class="weekday"><?php echo $weekday; ?></div>
+						<div class="month"><?php echo $month; ?></div>
+						<div class="day"><?php echo $day; ?></div>
+					</div><!-- .date-label -->
+					<div class="day-events">
+				<?php
+				$close_previous_day = true;
+			}
+        	 ?>
 
                 <div <?php post_class('story events-section listing'); ?>>
                     <?php echo vtt_get_anchor(get_permalink($post), $post->post_title); ?>
