@@ -207,13 +207,13 @@ if (!class_exists('UNCC_CustomEventPostType')):
             //print values
             ?>
             <label for="nh-event-date">Date</label><br/>
-            <input type="text" id="nh-event-date" name="nh-event-date" value="<?php echo esc_attr($startdate); ?>" size="32" /><br/>
+            <input type="text" id="nh-event-date" name="nh-event-date" placeholder="YYYY-MM-DD" value="<?php echo esc_attr($startdate); ?>" size="32" /><br/>
             <label for="nh-event-time">Time</label><br/>
-            <input type="text" id="nh-event-time" name="nh-event-time" value="<?php echo esc_attr($starttime); ?>" size="32" /><br/>
+            <input type="text" id="nh-event-time" name="nh-event-time" placeholder="HH:MM AM" value="<?php echo esc_attr($starttime); ?>" size="32" /><br/>
             <label for="nh-event-date-end">End Date</label><br/>
-            <input type="text" id="nh-event-date-end" name="nh-event-date-end" value="<?php echo esc_attr($enddate); ?>" size="32" /><br/>
+            <input type="text" id="nh-event-date-end" name="nh-event-date-end" placeholder="YYYY-MM-DD" value="<?php echo esc_attr($enddate); ?>" size="32" /><br/>
             <label for="nh-event-time-end">End Time</label><br/>
-            <input type="text" id="nh-event-time-end" name="nh-event-time-end" value="<?php echo esc_attr($endtime); ?>" size="32" /><br/>
+            <input type="text" id="nh-event-time-end" name="nh-event-time-end" placeholder="HH:MM AM" value="<?php echo esc_attr($endtime); ?>" size="32" /><br/>
             <label for="nh-event-location">Location</label><br/>
             <input type="text" id="nh-event-location" name="nh-event-location" value="<?php echo esc_attr($location); ?>" size="32" /><br/>
             <?php
