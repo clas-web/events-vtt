@@ -109,43 +109,48 @@ else:
 
     //Grab each post for the Event listing at /exchange/event/
     foreach ($posts as $post):
-        $datetime_meta = $post->datetime;
-        $enddatetime_meta = $post->enddatetime;
+    
+//         $datetime_meta = $post->datetime;
+//         $enddatetime_meta = $post->enddatetime;
+			$same_day = true;
+        
+//        print_r ($datetime_meta);
+		
+		// datetime_meta might only be Y-m-d
+//         if (!empty($datetime_meta)) {
+//             $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime_meta);
+//         }
+//         if (!empty($enddatetime_meta)) {
+//             $enddatetime = DateTime::createFromFormat('Y-m-d H:i:s', $enddatetime_meta);
+//         }
+        
+//		    $datetime = $post->datetime;
+			$event_date = new DateTime(date('Y-m-d', strtotime($post->datetime)));
+			//$enddate =  $post->enddatetime;
+//			print_r ($post->datetime);
 
-        if (!empty($datetime_meta)) {
-            $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime_meta);
-        }
-        if (!empty($enddatetime_meta)) {
-            $enddatetime = DateTime::createFromFormat('Y-m-d H:i:s', $enddatetime_meta);
-        }
-        $same_day = true;
-
-        if ($datetime->format('y-d-M') != $current_date->format('y-d-M')) {
-
-            $same_day = false;
-            $current_date = $datetime;
-            $month = $current_date->format('F');
-            $day = $current_date->format('j');
-            $weekday = $current_date->format('l');
-
-            if ($close_previous_day) {
-                ?>
-                </div><!-- .day-events -->
-                </div><!-- .agenda-day -->
-                <?php
-            }
-            ?>
-            <div class="agenda-day">
-                <div class="date-label">
-                    <div class="weekday"><?php echo $weekday; ?></div>
-                    <div class="month"><?php echo $month; ?></div>
-                    <div class="day"><?php echo $day; ?></div>
-                </div><!-- .date-label -->
-                <div class="day-events">
-                    <?php
-                    $close_previous_day = true;
-                }
-                ?>
+			//check to see which date/time format the datetime is
+// 			$datetimeformat1 = DateTime::createFromFormat('m/d/Y H:i A', $datetime);
+// 			$datetimeformat2 = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
+// 			$dateformat1 = DateTime::createFromFormat('m/d/Y', $datetime);
+// 			$dateformat2 = DateTime::createFromFormat('Y-m-d', $datetime);
+// 
+// 			//format the start/end date values properly
+// 			if (is_a($datetimeformat1, "DateTime")) {
+// 				$datetime = $datetimeformat1;
+// 				$date = $datetime->format('Y-m-d');
+// 			//	$time = $datetime->format('h:i A');
+// 			} else if (is_a($datetimeformat2, "DateTime")) {
+// 				$datetime = $datetimeformat2;
+// 				$date = $datetime->format('Y-m-d');
+// 			//	$time = $datetime->format('h:i A');
+// 			} else if (is_a($dateformat1, "DateTime")) {
+// 				$datetime = $dateformat1;
+// 				$date = $datetime->format('Y-m-d');
+// 			} else if (is_a($dateformat2, "DateTime")) {
+// 				$datetime = $dateformat2;
+// 				$date = $datetime->format('Y-m-d');
+//  			}
 
                 <div <?php post_class('story events-section listing'); ?>>
                     <?php echo vtt_get_anchor(get_permalink($post), $post->post_title); ?>
@@ -165,33 +170,8 @@ else:
                             $event_info = '<div class="event-info">';
 
                             //display the start date of the selected event
-                            if ($post->datetime) {
-                                
-                                $datetime = $post->datetime;
-
-                                //check to see which date/time format the start date and end date values are
-                                $datetimeformat1 = DateTime::createFromFormat('m/d/Y H:i A', $datetime);
-                                $datetimeformat2 = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
-                                $datetimeformat12 = DateTime::createFromFormat('m/d/Y', $datetime);
-                                $datetimeformat22 = DateTime::createFromFormat('Y-m-d', $datetime);
-
-                                //format the start/end date values properly
-                                if (is_a($datetimeformat1, "DateTime")) {
-                                    $datetime = $datetimeformat1;
-                                    $date = $datetime->format('Y-m-d');
-                                    $time = $datetime->format('h:i A');
-                                } else if (is_a($datetimeformat2, "DateTime")) {
-                                    $datetime = $datetimeformat2;
-                                    $date = $datetime->format('Y-m-d');
-                                    $time = $datetime->format('h:i A');
-                                } else if (is_a($datetimeformat12, "DateTime")) {
-                                    $datetime = $datetimeformat12;
-                                    $date = $datetime->format('Y-m-d');
-                                } else if (is_a($datetimeformat22, "DateTime")) {
-                                    $datetime = $datetimeformat22;
-                                    $date = $datetime->format('Y-m-d');
-                                }
-                                //If the start date is just a date w/ no time, it will default to 12:00 AM
+                            if ($post->datetime) {                               
+                                 //If the start date is just a date w/ no time, it will default to 12:00 AM
                                 //Thus, only display the date if the selected start time is 12:00 AM (hopefully no midnight events)
                                 print date('g:i A', strtotime($post->datetime)); print "<br>";
                                 print date('g:i A', strtotime($post->date));print "<br>";
