@@ -91,9 +91,9 @@ $next_year->add(new DateInterval('P1Y'));
 
 
 <?php
-//------------------------------------------------------------------------------------
-// Print of the events for this archive listing.
-//------------------------------------------------------------------------------------
+/**
+* Print of the events for this archive listing.
+*/
 $posts = $wp_query->get_posts();
 
 if (count($posts) == 0):
