@@ -277,6 +277,8 @@ if (!class_exists('UNCC_CustomEventPostType')):
                     update_post_meta($post_id, $datetimestring, $datetimeformat22->format('Y-m-d'));
                 } else if (is_a($datetimeformat23, "DateTime")) {
                     update_post_meta($post_id, $datetimestring, $datetimeformat23->format('H:i:s'));
+                } else {
+                	update_post_meta($post_id, $datetimestring, "");
                 }
             }
             $location = $_POST['nh-event-location'];
