@@ -222,6 +222,7 @@ else:
 						//Display only the dates, no times
 						if ($gcal_startdate_format==1){
 							$gcal_enddate = date('Ymd', strtotime($post->enddatetime."+1 day"));
+							//$gcal_enddate .= 'T'.date('His', strtotime($post->enddatetime."+1 hour"));
 						//Display the start date + start time, format end date as the same day and end time+1 hour for GCal
 						} else if ($gcal_startdate_format==2){
 							$gcal_enddate = date('Ymd', strtotime($post->enddatetime));
@@ -239,7 +240,7 @@ else:
 					$gcal_link .= '&details='; 
 					$gcal_link .= $events_url;                          //Event description, '%0A' = line break (Hex)
 					$gcal_link .= '&location='; 
-					$gcal_link .= $post->location;                                   //Event location
+					$gcal_link .= '';                                   //Event location
 					$gcal_link .= '&trp=false&sprop&sprop=name&sf=true&ctz=America/New_York';
 					$event_info .= '<div class="gcal">';
 					$event_info .= '<a href ="'.$gcal_link.'" target="_blank" rel="noopener noreferrer">Add to Google Calendar</a></div>';
