@@ -108,7 +108,7 @@ if (!function_exists('convert_to_gcal')):
 
 	//Push calendar link to event
 	$event_info	 .= '<div class="gcal">';
-	$event_info	 .= '<a href ="' . $gcal_link . '" target="_blank" rel="noopener noreferrer">+ Google Calendar</a></div>';
+	$event_info	 .= '<a href ="' . htmlentities($gcal_link) . '" target="_blank" rel="noopener noreferrer">+ Google Calendar</a></div>';
 	$event_info	 .= '</div>';
 
 	return $event_info;
