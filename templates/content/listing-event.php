@@ -107,8 +107,8 @@ else:
     //Grab each post for the Event listing at /exchange/event/
     foreach ($posts as $post):
     
-		$same_day = true;
-        $event_date = new DateTime(date('Y-m-d', strtotime($post->datetime)));
+	    $same_day = true;
+	    $event_date = new DateTime(date('Y-m-d', strtotime($post->datetime)));
 		if ($event_date->format('y-d-M') != $current_date->format('y-d-M')) {
 
 			$same_day = false;
@@ -189,66 +189,10 @@ else:
 					if ($post->location) {
 						$event_info .= '<div class="location">' . $post->location . '</div>';
 					}
-
-					/**
-					 * Add dynamic Google Calendar link for event
-					 */
 					
-					$gcal_link = 'https://calendar.google.com/calendar/r/eventedit?text=';
-					$gcal_link .= $post->post_title;                   //Event Title
-					$gcal_link .= '&dates=';
-					
-					//Determine the start date+time format
-					//If we have a start date, add to Google Calendar
-					if ($gcal_startdate_format==1){                                            
-						$gcal_startdate = date('Ymd', strtotime($post->datetime));
-					//If we have a start date and time, add to Google Calendar                                            
-					} else if ($gcal_startdate_format==2){                                            
-						$gcal_startdate = date('Ymd', strtotime($post->datetime)).'T'.date('His', strtotime($post->datetime));
-					}
-					
-					//Determine the end date+time format. If we have a start date and no end date/time...
-					if ($gcal_enddate_format==0){                  
-						//Because of Google Calendar's URL API, "start date to end date" with same day events & no time are calculated as "start date to start date + 1"
-						 if($gcal_startdate_format==1){
-							 $gcal_enddate = date('Ymd', strtotime($post->datetime."+1 day"));
-						//No end date or end time, but a start time? Add to GCal with the end time being +1 hour
-						 } else if($gcal_startdate_format==2){
-							 $gcal_enddate = date('Ymd', strtotime($post->datetime)).'T'.date('His', strtotime($post->datetime."+1 hour"));
-						 }
-						
-					//If we have a start date and end date, add to Google Calendar without times
-					} else if ($gcal_enddate_format==1){                                            
-						//Display only the dates, no times
-						if ($gcal_startdate_format==1){
-							$gcal_enddate = date('Ymd', strtotime($post->enddatetime."+1 day"));
-						//Display the start date + start time, format end date as the same day and end time+1 hour for GCal
-						} else if ($gcal_startdate_format==2){
-							$gcal_enddate = date('Ymd', strtotime($post->enddatetime));
-							$gcal_enddate .= 'T'.date('His', strtotime($post->datetime."+1 hour"));
-						}
-					//If we have a start date, start time, and an end time, add to Google Calendar (same day, different times)
-					} else if ($gcal_enddate_format==2){                                            
-						$gcal_enddate = date('Ymd', strtotime($post->datetime)).'T'.date('His', strtotime($post->enddatetime));
-					//If we have an end date and end time, add to Google Calendar
-					} else if ($gcal_enddate_format==3){                                            
-						$gcal_enddate = date('Ymd', strtotime($post->enddatetime)).'T'.date('His', strtotime($post->enddatetime));
-					}
-					
-					$gcal_link .= $gcal_startdate.'/'.$gcal_enddate;    //Event start/end dates+times, formatted as 20180101T050000/20180101T110000
-					$gcal_link .= '&details='; 
-					$gcal_link .= $events_url;                          //Event description, '%0A' = line break (Hex)
-					$gcal_link .= '&location='; 
-					$gcal_link .= $post->location;                                   //Event location
-					$gcal_link .= '&trp=false&sprop&sprop=name&sf=true&ctz=America/New_York';
-					$event_info .= '<div class="gcal">';
-					$event_info .= '<a href ="'.$gcal_link.'" target="_blank" rel="noopener noreferrer">Add to Google Calendar</a></div>';
-					//$event_info .=$gcal_enddate;
-					$event_info .= '</div>';
-
-					echo $excerpt;
-					echo $event_info;
-					?>
+					echo $excerpt;                                        
+					echo convert_to_gcal($post, $event_info);
+	?>
 
 				</div><!-- .contents -->
             </div><!-- .description -->

@@ -38,6 +38,8 @@ global $post;
 
             <?php echo $post->post_content; ?>
 
+	    <?php echo convert_to_gcal($post, "<br><br>"); ?>
+
         </div><!-- .description -->
     </div><!-- .details -->
 
