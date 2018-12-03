@@ -3,7 +3,7 @@
   Plugin Name: Events for VTT
   Plugin URI: https://github.com/clas-web/events-vtt
   Description: Adds an Events post type and listing page with calendar.  Uses VTT functions and template files.
-  Version: 1.1.3
+  Version: 1.1.4
   Author: Crystal Barton, Aaron Forsyth
   GitHub Plugin URI: https://github.com/clas-web/events-vtt
  */
