@@ -36,7 +36,7 @@ global $post;
 
         <div class="description">
 
-            <?php echo $post->post_content; ?>
+            <?php echo wpautop($post->post_content); ?>
 
 	    <?php echo convert_to_gcal($post, "<br><br>"); ?>
 
