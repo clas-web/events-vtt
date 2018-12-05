@@ -245,14 +245,17 @@ if (!class_exists('UNCC_CustomEventPostType')):
             if (!current_user_can('edit_page', $post_id))
                 return;
 
+	    //grab start and end datetimes from post
             $datetime = get_post_meta($post->ID, 'datetime', true);
             $enddatetime = get_post_meta($post->ID, 'enddatetime', true);
+
+	    //initialize variables
             $eventtimes = array("start" => $datetime, "end" => $enddatetime);
             $nheventdate = '';
             $nheventtime = '';
             $datetimestring = '';
 
-            //cycle through array for both start date and end date values
+            //cycle through array for both start datetime and end datetime values
             foreach ($eventtimes as $key => $eventtime) {
 
                 if ($key == "start") {
@@ -265,7 +268,7 @@ if (!class_exists('UNCC_CustomEventPostType')):
                     $datetimestring = 'enddatetime';
                 }
 
-                //check to see which date/time format the start date and end date values are
+                //check to see which date/time format the start datetime and end datetime values are
                 $datetimeformat1 = DateTime::createFromFormat('Y-m-d h:i A', $nheventdate . ' ' . $nheventtime);
                 $datetimeformat2 = DateTime::createFromFormat('Y-m-d h:i:s', $nheventdate . ' ' . $nheventtime);
                 

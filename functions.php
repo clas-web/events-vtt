@@ -41,20 +41,24 @@ if (!function_exists('UNCC_event_location_rss')):
 
 endif;
 
+/**
+ * Converts Event post to a Google Calendar event.
+ * @param WP_Post The current post being displayed.
+ */
 if (!function_exists('convert_to_gcal')):
 
-    function convert_to_gcal($post, $event_info) {
+    function convert_to_gcal($post) {
 	?><?php
 	//initialize variables
 	$gcal_startdate	 = '';
 	$gcal_enddate	 = '';
 
 	//Create the dynamic URL using variables from the post
-	$gcal_link	 = 'https://calendar.google.com/calendar/r/eventedit?text=';
+	$gcal_link	= 'https://calendar.google.com/calendar/r/eventedit?text=';
 	//The title of the Event will be the name of the Google Calendar event
-	$gcal_link	 .= $post->post_title;
+	$gcal_link	.= $post->post_title;
 	//Determine the start date+time format
-	$gcal_link	 .= '&dates=';
+	$gcal_link	.= '&dates=';
 
 
 
@@ -71,31 +75,26 @@ if (!function_exists('convert_to_gcal')):
 	    //Because of Google Calendar's URL API, "start date to end date" with same day events & no time are calculated as "start date to start date + 1"
 	    if (date('g:i A', strtotime($post->datetime)) == '12:00 AM') {		
 		$gcal_enddate = date('Ymd', strtotime($post->datetime . "+1 day"));
-	    //No end date or end time, but a start time? Add to GCal with the end time being +1 hour
+	    //No end date or end time, but a start time? Add to GCal with the end time being start time+1 hour
 	    } else {
 		$gcal_enddate = date('Ymd', strtotime($post->datetime)) . 'T' . date('His', strtotime($post->datetime . "+1 hour"));
 	    }
 
 	//If we have a start date and end date, add to Google Calendar without times
 	} else if (date('g:i A', strtotime($post->enddatetime)) == '12:00 AM') {
-	    //$gcal_enddate_format==1;
 	    //Display only the dates, no times
 	    if (date('g:i A', strtotime($post->datetime)) == '12:00 AM') {
-		//$gcal_startdate_format==1;
 		$gcal_enddate = date('Ymd', strtotime($post->enddatetime . "+1 day"));
 	    //Display the start date + start time, format end date as the same day and end time+1 hour for GCal
 	    } else if (date('g:i A', strtotime($post->datetime)) != '12:00 AM') {
-		//$gcal_startdate_format==2;
 		$gcal_enddate	 = date('Ymd', strtotime($post->enddatetime));
 		$gcal_enddate	 .= 'T' . date('His', strtotime($post->datetime . "+1 hour"));
 	    }
 	//If we have a start date, start time, and an end time, add to Google Calendar (same day, different times)
 	} else if (date('F j, Y') == date('F j, Y', strtotime($post->enddatetime))) {
-	    //$gcal_enddate_format==2;
 	    $gcal_enddate = date('Ymd', strtotime($post->datetime)) . 'T' . date('His', strtotime($post->enddatetime));
 	//If we have an end date and end time, add to Google Calendar
 	} else {
-	    //$gcal_enddate_format==3;
 	    $gcal_enddate = date('Ymd', strtotime($post->enddatetime)) . 'T' . date('His', strtotime($post->enddatetime));
 	}
 
@@ -107,11 +106,11 @@ if (!function_exists('convert_to_gcal')):
 	$gcal_link	 .= '&trp=false&sprop&sprop=name&sf=true&ctz=America/New_York';
 
 	//Push calendar link to event
-	$event_info	 .= '<div class="gcal">';
-	$event_info	 .= '<a href ="' . htmlentities($gcal_link) . '" target="_blank" rel="noopener noreferrer">+ Google Calendar</a></div>';
-	$event_info	 .= '</div>';
+	$gcal	    .= '<div class="gcal">';
+	$gcal	    .= '<a href ="' . htmlentities($gcal_link) . '" target="_blank" rel="noopener noreferrer">+ Google Calendar</a></div>';
+	$gcal	    .= '</div>';
 
-	return $event_info;
+	return $gcal;
 	?><?php
     }
 

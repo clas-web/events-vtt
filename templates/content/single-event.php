@@ -10,7 +10,7 @@ global $post;
         <div class="listing-name">
             <?php
             echo vtt_get_anchor(
-                    get_permalink($post), $post->post_title, null, 'EVENTS');
+				get_permalink($post), $post->post_title, null, 'EVENTS');
             ?>
         </div>
         <?php echo '<h1>' . vtt_get_page_title() . '</h1>'; ?>
@@ -27,7 +27,6 @@ global $post;
 
     <?php
     //		if( $image ):
-    //			
     ?><div class="image" title="Featured Image"><img src="<?php if ($image) echo $image; ?>" /></div><!-- .image --><?php
     //		endif;
     ?>
@@ -36,9 +35,11 @@ global $post;
 
         <div class="description">
 
+			<!--Wrap event descriptions in function to prevent stripping of <p> tags-->
             <?php echo wpautop($post->post_content); ?>
 
-	    <?php echo convert_to_gcal($post, "<br><br>"); ?>
+			<!--Add Google Calendar link-->
+			<?php echo convert_to_gcal($post); ?>
 
         </div><!-- .description -->
     </div><!-- .details -->
