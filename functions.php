@@ -60,20 +60,24 @@ if (!function_exists('convert_to_gcal')):
 	//Determine the start date+time format
 	$gcal_link	.= '&dates=';
 
-
-
 	//If we have a start date (no time) add to Google Calendar
 	if (date('g:i A', strtotime($post->datetime)) == '12:00 AM') {
 	    $gcal_startdate = date('Ymd', strtotime($post->datetime));
+	    //if we have an end time or end date + end time, we'll need to create and add a start time for GCal's API
+	    if ($post->enddatetime && (date('g:i A', strtotime($post->enddatetime)) != '12:00 AM') || (date('F j, Y') == date('F j, Y', strtotime($post->enddatetime)))){
+		//Set the time to midnight
+		$gcal_startdate .= 'T000000';
+	    }
 	//If we have a start date and time, add to Google Calendar
 	} else {
 	    $gcal_startdate = date('Ymd', strtotime($post->datetime)) . 'T' . date('His', strtotime($post->datetime));
 	}
 
-	//Determine the end date+time format
+	//Determine the end date+time format if there is no end date + end time
 	if (!$post->enddatetime) {	    
-	    //Because of Google Calendar's URL API, "start date to end date" with same day events & no time are calculated as "start date to start date + 1"
-	    if (date('g:i A', strtotime($post->datetime)) == '12:00 AM') {		
+	    //If we have a start date and no end date, add to Google Calendar (sans end datetimes)
+	    if (date('g:i A', strtotime($post->datetime)) == '12:00 AM') {
+		//Because of Google Calendar's URL API, "start date to end date" with same day events & no time are calculated as "start date to start date + 1"
 		$gcal_enddate = date('Ymd', strtotime($post->datetime . "+1 day"));
 	    //No end date or end time, but a start time? Add to GCal with the end time being start time+1 hour
 	    } else {
